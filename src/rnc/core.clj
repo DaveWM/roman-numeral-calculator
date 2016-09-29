@@ -15,10 +15,10 @@
                   "XM" 900
                   "M" 1000})
 
-(def decimal-map (map-invert numeral-map))
+(def decimal-map (sort (map-invert numeral-map)))
 
 (defn roman-to-decimal [roman-string]
-  (->> (map #(get value-map (str %)) roman-string)
+  (->> (map #(get numeral-map (str %)) roman-string)
        (partition-all 2 1)
        (map (fn [[x y]]
               (if (>= x (or y 0))
@@ -32,7 +32,6 @@
     (if (zero? x)
       result
       (let [[character-val character] (->> decimal-map
-                                           sort
                                            (take-while (fn [[k v]] (<= k x)))
                                            last)
             times (quot x character-val)] 

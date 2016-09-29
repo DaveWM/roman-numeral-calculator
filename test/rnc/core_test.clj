@@ -1,6 +1,9 @@
 (ns rnc.core-test
   (:require [clojure.test :refer :all]
-            [rnc.core :refer :all]))
+            [rnc.core :refer :all]
+            [rnc.specs :as specs]
+            [clojure.spec.test :as stest]
+            [clojure.spec :as s]))
 
 (deftest test-roman-to-decimal
   (is (= (roman-to-decimal "I") 1))
@@ -18,3 +21,7 @@
 
 (deftest test-add
   (is (= (add "IV" "III") "VII")))
+
+(deftest test-check
+  (is (get-in (first (stest/check `decimal-to-roman)) [:clojure.spec.test.check/ret :result]))
+  (is (get-in (first (stest/check `roman-to-decimal)) [:clojure.spec.test.check/ret :result])))
